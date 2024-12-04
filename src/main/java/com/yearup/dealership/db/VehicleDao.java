@@ -17,9 +17,9 @@ public class VehicleDao {
     public void addVehicle(Vehicle vehicle) {
         // TODO: Implement the logic to add a vehicle
         String query = "INSERT INTO vehicles(VIN, make, model, year, SOLD, color, vehicleType, odometer, price) VALUES (?, ?, ?, ?, ?, ? ,?, ?, ?)";
-        try(Connection connection= dataSource.getConnection();
-       PreparedStatement statement= connection.prepareStatement(query)) {
-            statement.setString(1,vehicle.getVin());
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, vehicle.getVin());
             statement.setString(2, vehicle.getMake());
             statement.setString(3, vehicle.getModel());
             statement.setInt(4, vehicle.getYear());
@@ -27,7 +27,7 @@ public class VehicleDao {
             statement.setString(6, vehicle.getColor());
             statement.setString(7, vehicle.getVehicleType());
             statement.setInt(8, vehicle.getOdometer());
-            statement.setDouble(9,vehicle.getPrice());
+            statement.setDouble(9, vehicle.getPrice());
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -38,9 +38,9 @@ public class VehicleDao {
     public void removeVehicle(String VIN) {
         // TODO: Implement the logic to remove a vehicle
 
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement=connection.prepareStatement("DELETE FROM vehicles WHERE VIN = ? ")) {
-            statement.setString(1,VIN);
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement("DELETE FROM vehicles WHERE VIN = ? ")) {
+            statement.setString(1, VIN);
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -49,23 +49,34 @@ public class VehicleDao {
     }
 
 
-
-
-
-
     public List<Vehicle> searchByPriceRange(double minPrice, double maxPrice) {
         // TODO: Implement the logic to search vehicles by price range
-        return new ArrayList<>();
+        List<Vehicle> vehicles = new ArrayList<>();
+        String query = "SELECT * FROM vehicles WHERE price BETWEEN ? and ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setDouble(1, minPrice);
+            statement.setDouble(1, maxPrice);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                   vehicles.add(createVehicleFromResultSet(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return vehicles;
     }
 
     public List<Vehicle> searchByMakeModel(String make, String model) {
         // TODO: Implement the logic to search vehicles by make and model
-        return new ArrayList<>();
+
     }
 
     public List<Vehicle> searchByYearRange(int minYear, int maxYear) {
         // TODO: Implement the logic to search vehicles by year range
-        return new ArrayList<>();
+       
     }
 
     public List<Vehicle> searchByColor(String color) {
