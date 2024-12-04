@@ -19,7 +19,8 @@ public class InventoryDao {
         PreparedStatement statement=connection.prepareStatement("INSERT INTO inventory (VIN,DealershipID) VALUES (?,?) ")) {
             statement.setString(1,vin);
             statement.setInt(2,dealershipId);
-            
+            statement.executeUpdate();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -27,5 +28,15 @@ public class InventoryDao {
 
     public void removeVehicleFromInventory(String vin) {
         // TODO: Implement the logic to remove a vehicle from the inventory
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement statement=connection.prepareStatement("DELETE FROM inventory WHERE VIN = ? ")) {
+            statement.setString(1,vin);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+}
 }
