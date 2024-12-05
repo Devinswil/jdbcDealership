@@ -56,7 +56,7 @@ public class VehicleDao {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setDouble(1, minPrice);
-            statement.setDouble(1, maxPrice);
+            statement.setDouble(2, maxPrice);
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
