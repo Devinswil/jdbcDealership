@@ -30,6 +30,7 @@ public class VehicleDao {
             statement.setDouble(9, vehicle.getPrice());
             statement.executeUpdate();
 
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
