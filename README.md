@@ -47,7 +47,17 @@ Follow these steps to get your application running within IntelliJ IDEA:
 
 
 ## Demo
-Search by Color
+Search by color
+![img_1.png](img_1.png)
+Adding a car
+![img_2.png](img_2.png)
+![img_4.png](img_4.png)
+Adding lease contract
+![img_3.png](img_3.png)
+![img_5.png](img_5.png)
+
+
+
 
 
 
